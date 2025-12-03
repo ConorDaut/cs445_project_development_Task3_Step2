@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Admin dashboard</h2>
+<table class="table">
+  <thead><tr><th>ID</th><th>User</th><th>Status</th><th>Created</th><th>Updated</th><th>Total</th><th></th></tr></thead>
+  <tbody>
+    {% for o in orders %}
+      <tr>
+        <td>{{ o.id }}</td>
+        <td>{{ o.user.email }}</td>
+        <td>{{ o.status.value }}</td>
+        <td>{{ o.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+        <td>{{ o.updated_at.strftime('%Y-%m-%d %H:%M') }}</td>
+        <td>${{ '%.2f'|format(o.total) }}</td>
+        <td><a class="link" href="{{ url_for('admin_order_detail', order_id=o.id) }}">Manage</a></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
