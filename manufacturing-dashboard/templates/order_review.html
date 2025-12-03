@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Order review</h2>
+<table class="table">
+  <thead><tr><th>Product</th><th>Qty</th><th>Unit</th><th>Subtotal</th></tr></thead>
+  <tbody>
+    {% for li in line_items %}
+      <tr>
+        <td>{{ li.product.name }}</td>
+        <td>{{ li.quantity }}</td>
+        <td>${{ '%.2f'|format(li.unit_price) }}</td>
+        <td>${{ '%.2f'|format(li.unit_price * li.quantity) }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<p><strong>Total:</strong> ${{ '%.2f'|format(total) }}</p>
+<form method="post">
+  <button class="btn" type="submit">Place order</button>
+</form>
+{% endblock %}
