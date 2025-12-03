@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Order #{{ order.id }}</h2>
+<p><strong>User:</strong> {{ order.user.email }}</p>
+<p><strong>Status:</strong> {{ order.status.value }}</p>
+<p><strong>Created:</strong> {{ order.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+<p><strong>Updated:</strong> {{ order.updated_at.strftime('%Y-%m-%d %H:%M') }}</p>
+
+<h3>Items</h3>
+<table class="table">
+  <thead><tr><th>Product</th><th>Qty</th><th>Unit</th><th>Subtotal</th></tr></thead>
+  <tbody>
+    {% for item in order.items %}
+      <tr>
+        <td>{{ item.product.name }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>${{ '%.2f'|format(item.unit_price) }}</td>
+        <td>${{ '%.2f'|format(item.unit_price * item.quantity) }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<p><strong>Total:</strong> ${{ '%.2f'|format(order.total) }}</p>
+
+<h3>Update status</h3>
+<form method="post">
+  {{ form.hidden_tag() }}
+  <label for="status">Status</label>
+  <select id="status" name="status">
+    {% for s in statuses %}
+      <option value="{{ s }}" {% if s == order.status.value %}selected{% endif %}>{{ s }}</option>
+    {% endfor %}
+  </select>
+  {{ form.submit() }}
+</form>
+
+{% endblock %}
