@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Products</h2>
+<div class="grid">
+  {% for p in products %}
+    <div class="card">
+      <h3>{{ p.name }}</h3>
+      <p>SKU: {{ p.sku }}</p>
+      <p>${{ '%.2f'|format(p.unit_price) }}</p>
+      <p class="desc">{{ p.description }}</p>
+      <form method="post">
+        {{ add_form.hidden_tag() }}
+        {{ add_form.product_id(value=p.id) }}
+        <label>Qty {{ add_form.quantity(min=1, value=1) }}</label>
+        {{ add_form.submit() }}
+      </form>
+    </div>
+  {% endfor %}
+</div>
+<a class="btn" href="{{ url_for('cart') }}">View cart</a>
+{% endblock %}
